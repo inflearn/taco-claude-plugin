@@ -2,11 +2,13 @@
 # Claude Code hook → ai-usage CLI.
 #
 # Claude Code 가 hook 이벤트(Stop/SubagentStop/PreCompact/SessionEnd)마다 이
-# 스크립트를 async 로 실행하고, 이벤트 JSON(transcript_path, cwd, session_id,
+# 스크립트를 실행하고, 이벤트 JSON(transcript_path, cwd, session_id,
 # hook_event_name)을 stdin 으로 넘긴다. 우리는 그걸 그대로 `ai-usage hook` 에
 # 파이프할 뿐 — 파싱/필터/전송 로직은 전부 CLI 안에 있다.
 #
-# editor 를 절대 막지 않도록: CLI 를 못 찾으면 조용히 exit 0.
+# hook 은 동기 실행(async 옵션 미지원)이라, 에디터를 막지 않도록 stdin 을 먼저
+# 다 읽은 뒤 ai-usage 를 백그라운드로 돌리고 즉시 반환한다. CLI 를 못 찾으면
+# 조용히 exit 0.
 
 BIN="$(command -v ai-usage 2>/dev/null)"
 if [ -z "$BIN" ]; then
@@ -19,4 +21,8 @@ if [ -z "$BIN" ]; then
 fi
 [ -z "$BIN" ] && exit 0
 
-exec "$BIN" hook
+# stdin(hook 이벤트 JSON) 전체를 읽어 백그라운드 프로세스로 넘기고 즉시 종료.
+DATA="$(cat)"
+printf '%s' "$DATA" | "$BIN" hook >/dev/null 2>&1 &
+
+exit 0

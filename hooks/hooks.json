@@ -4,7 +4,7 @@
       {
         "matcher": "",
         "hooks": [
-          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run", "async": true }
+          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run" }
         ]
       }
     ],
@@ -12,7 +12,7 @@
       {
         "matcher": "",
         "hooks": [
-          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run", "async": true }
+          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run" }
         ]
       }
     ],
@@ -20,7 +20,7 @@
       {
         "matcher": "",
         "hooks": [
-          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run", "async": true }
+          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run" }
         ]
       }
     ],
@@ -28,7 +28,7 @@
       {
         "matcher": "",
         "hooks": [
-          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run", "async": true }
+          { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run" }
         ]
       }
     ]
