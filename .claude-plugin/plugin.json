@@ -1,10 +1,10 @@
 {
-  "name": "ai-usage",
-  "description": "Inflab 사내 LLM 사용량 트래커 — Claude Code 토큰 사용량을 ai-usage CLI 를 통해 devops-api 로 전송",
+  "name": "taco",
+  "description": "Inflab 사내 LLM 사용량 트래커 — Claude Code 토큰 사용량을 taco CLI 를 통해 devops-api 로 전송",
   "version": "0.2.0",
   "author": { "name": "Inflab DevOps" },
-  "homepage": "https://github.com/inflearn/ai-usage-claude-plugin",
-  "repository": "https://github.com/inflearn/ai-usage-claude-plugin",
+  "homepage": "https://github.com/inflearn/taco-claude-plugin",
+  "repository": "https://github.com/inflearn/taco-claude-plugin",
   "license": "MIT",
   "keywords": ["usage", "metrics", "hooks", "inflab"]
 }
