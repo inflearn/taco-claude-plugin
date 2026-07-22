@@ -10,13 +10,13 @@
     {
       "name": "taco",
       "source": "./",
-      "description": "Inflab 사내 LLM 사용량 트래커 — Claude Code 토큰 사용량을 taco CLI 로 수집",
-      "version": "0.2.0",
+      "description": "Inflab 사내 LLM 사용량 트래커 — taco CLI 수집(hooks) + taco MCP 서버 제공",
+      "version": "0.3.0",
       "homepage": "https://github.com/inflearn/taco-claude-plugin",
       "repository": "https://github.com/inflearn/taco-claude-plugin",
       "license": "MIT",
       "category": "productivity",
-      "tags": ["usage", "metrics"]
+      "tags": ["usage", "metrics", "mcp"]
     }
   ]
 }
