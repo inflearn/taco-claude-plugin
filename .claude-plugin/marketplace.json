@@ -11,7 +11,7 @@
       "name": "taco",
       "source": "./",
       "description": "Inflab 사내 LLM 사용량 트래커 — taco CLI 수집(hooks) + taco MCP 서버 제공",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "homepage": "https://github.com/inflearn/taco-claude-plugin",
       "repository": "https://github.com/inflearn/taco-claude-plugin",
       "license": "MIT",
