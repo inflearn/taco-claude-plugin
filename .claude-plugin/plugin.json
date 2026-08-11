@@ -1,7 +1,7 @@
 {
   "name": "taco",
-  "description": "Inflab 사내 LLM 사용량 트래커 — taco CLI 로 Claude Code 사용량 수집(hooks) + taco MCP 서버(로컬 사용량 조회 도구) 제공",
-  "version": "0.4.0",
+  "description": "Inflab LLM 사용량 트래커 — taco CLI 로 Claude Code 사용량 수집(hooks) + taco MCP(로컬 stdio · 원격 taco-api 커넥터) 사용량 조회 도구 제공",
+  "version": "0.5.0",
   "author": { "name": "Inflab DevOps" },
   "homepage": "https://github.com/inflearn/taco-claude-plugin",
   "repository": "https://github.com/inflearn/taco-claude-plugin",
