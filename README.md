@@ -47,8 +47,8 @@ Claude Code hook (Stop/SubagentStop/PreCompact/SessionEnd)
       → auto_sync 켜진 경우 → taco 서버
 ```
 
-- **자동 sync 는 기본 OFF.** 기본은 로컬 버퍼에만 쌓이고, 전송은 `taco sync`
-  또는 `taco init` 에서 auto_sync 활성화 시.
+- **자동 전송은 기본 ON**(`auto_sync`). 로그인 전에는 로컬 버퍼에만 쌓이고,
+  `taco login` 후부터 서버로 전송된다.
 - 수집 대상은 `allowed_orgs` / `allowed_dirs` 필터를 따른다.
 - 래퍼는 CLI 를 못 찾아도 조용히 종료 — 에디터를 절대 막지 않는다.
 
