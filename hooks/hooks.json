@@ -4,7 +4,16 @@
       {
         "matcher": "",
         "hooks": [
-          { "type": "command", "command": "taco", "args": ["hook"], "async": true }
+          { "type": "command", "command": "taco", "args": ["hook"], "async": true },
+          { "type": "command", "command": "taco", "args": ["nudge"], "timeout": 5 }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          { "type": "command", "command": "taco", "args": ["nudge"], "timeout": 5 }
         ]
       }
     ],
