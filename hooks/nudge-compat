@@ -1,0 +1,9 @@
+이 파일은 일부러 디렉터리가 아니라 파일이다 — 지우거나 디렉터리로 바꾸지 말 것.
+
+hooks.json 의 맥락 안내 hook 은
+  taco hook nudge --local-db ${CLAUDE_PLUGIN_ROOT}/hooks/nudge-compat/local.db
+로 taco 를 부른다.
+- 새 taco CLI(0.12.11+): `hook nudge` 를 안내 경로로 처리하고 --local-db 는 무시한다.
+- 옛 taco CLI: 이 --local-db 를 열다가 "not a directory" 로 실패해 아무것도 출력하지
+  않고 exit 0 으로 끝난다. `taco nudge` 를 직접 부르면 옛 CLI 는 exit 1 이 되어
+  Claude Code 가 매 턴 hook 오류를 띄운다.
