@@ -79,7 +79,9 @@ Claude Code hook (PostCompact)
   `/clear` 하면 그 요약으로 바로 이어진다. 끄기: `TACO_HANDOFF=0`.
   - SessionStart 는 **동기** hook 이다. async SessionStart 의 출력은 첫 요청보다 늦게 끝나면
     다음 턴에야 Claude 에게 간다(Claude Code 2.1.311 실측). 동기여도 세션 시작 중 입력은 막지
-    않고 Claude 의 첫 응답만 hook(수십 ms)을 기다린다. 옛 CLI 에선 위 호환 경로로 출력 없이 끝난다.
+    않고 Claude 의 첫 응답만 hook 이 끝날 때까지 기다린다. 이 hook 은 로컬 메모 디렉터리만 읽어
+    보통 수십 ms 안에 끝나지만(실측), 디스크가 느리면 설정된 제한(5초)까지 기다릴 수 있다.
+    옛 CLI 에선 위 호환 경로로 출력 없이 끝난다.
 
 - **자동 전송은 기본 ON**(`auto_sync`). 로그인 전에는 로컬 버퍼에만 쌓이고,
   `taco login` 후부터 서버로 전송된다.

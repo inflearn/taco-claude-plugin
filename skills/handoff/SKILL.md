@@ -15,6 +15,10 @@ allowed-tools: mcp__plugin_taco_taco__taco_handoff_save
 
 비밀번호·토큰·키 같은 비밀값은 요약에 쓰지 않는다.
 
-요약을 `taco_handoff_save` 도구의 `summary` 로 저장한 뒤, 사용자에게 한 줄로만 알려라: "/clear 하면 새 세션이 이 요약으로 바로 이어져요."
+요약을 `taco_handoff_save` 도구로 저장한다. 인자는 `summary`(요약)와 `session_id`: `${CLAUDE_SESSION_ID}` 이다.
 
-`taco_handoff_save` 도구가 없거나 "unknown tool" 오류가 나면 taco CLI 가 오래된 것이다. 요약은 화면에 보여 주고, 사용자에게 `taco update` 후 Claude Code 를 다시 시작하라고 한 줄로 안내해라.
+결과에 따라 사용자에게 알린다.
+
+- 저장에 성공하면(결과에 `saved` 경로가 있음) 한 줄로만: "/clear 하면 새 세션이 이 요약으로 바로 이어져요."
+- 도구가 오류를 돌려주면 `/clear` 를 안내하지 않는다. 오류 이유를 한 줄로 전하고, 사용자가 복사할 수 있게 요약 전체를 화면에 보여 준다.
+- 도구가 목록에 없으면 `/clear` 를 안내하지 않고 요약 전체를 화면에 보여 준다. 원인은 둘 중 하나다: `/mcp` 에서 `plugin:taco:taco` 서버가 꺼져 있거나 연결되지 않았거나, taco CLI 가 이 도구가 없는 옛 버전이다. 사용자에게 `/mcp` 에서 taco 서버 상태를 먼저 확인하고, 켜져 있는데도 도구가 없으면 `taco update` 후 Claude Code 를 다시 시작하라고 한 줄로 안내한다.
