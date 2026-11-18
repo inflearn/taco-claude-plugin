@@ -58,6 +58,11 @@ Claude Code hook (SessionStart: startup|clear)
 
 Claude Code hook (PostCompact)
   → taco hook   (async — 압축 요약을 이어받기 메모에 보관)
+
+Claude Code hook (PreCompact)
+  → taco hook precompact --local-db <플러그인>/hooks/nudge-compat/local.db
+                (sync, timeout 5s — 네트워크·DB 없음)
+    → stdout 의 지시문이 압축 요약 지시에 덧붙는다
 ```
 
 - **맥락 안내**(taco CLI 0.12.11+). 옛 CLI 에선 아무것도 하지 않고 조용히 끝난다 —
@@ -83,6 +88,11 @@ Claude Code hook (PostCompact)
     보통 수십 ms 안에 끝나지만(실측), 디스크가 느리면 설정된 제한(5초)까지 기다릴 수 있다.
     옛 CLI 에선 위 호환 경로로 출력 없이 끝난다.
 
+- **압축 요약 보강**(taco CLI 0.13.0+). 압축할 때 "편집·생성한 파일 경로, 확정된 결정과
+  이유, 남은 할 일, 현재 브랜치와 실패 중인 테스트"를 요약에 남기라는 지시(800자 이하)를
+  넣는다. 사용자가 `/compact <지시>` 로 직접 지시했으면 아무것도 넣지 않는다. 옛 CLI 는
+  맥락 안내와 같은 호환 경로로 출력 없이 exit 0. 끄기: `TACO_PRECOMPACT=0`.
+
 - **자동 전송은 기본 ON**(`auto_sync`). 로그인 전에는 로컬 버퍼에만 쌓이고,
   `taco login` 후부터 서버로 전송된다.
 - 수집 대상은 `allowed_orgs` / `allowed_dirs` 필터를 따른다.
@@ -94,7 +104,7 @@ Claude Code hook (PostCompact)
 |---|---|
 | `.claude-plugin/plugin.json` | 플러그인 매니페스트 |
 | `.claude-plugin/marketplace.json` | marketplace 레지스트리 매니페스트 |
-| `hooks/hooks.json` | hook 이벤트 → `taco hook` 등록 (async) + Stop/UserPromptSubmit → `taco hook nudge` (sync) + SessionStart → `taco hook sessionstart` (sync) |
+| `hooks/hooks.json` | hook 이벤트 → `taco hook` 등록 (async) + Stop/UserPromptSubmit → `taco hook nudge` (sync) + SessionStart → `taco hook sessionstart` (sync) + PreCompact → `taco hook precompact` (sync) |
 | `hooks/nudge-compat` | 옛 CLI 호환 표지 파일(위 "맥락 안내" 참고) — 지우지 말 것 |
 | `skills/handoff/SKILL.md` | `/taco:handoff` — 지금 세션 요약을 MCP `taco_handoff_save` 로 저장 |
 | `.mcp.json` | taco MCP 서버 등록 — `taco`(로컬 stdio) + `taco-remote`(원격 http) |
