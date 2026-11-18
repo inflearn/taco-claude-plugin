@@ -33,6 +33,22 @@
         ]
       }
     ],
+    "SessionStart": [
+      {
+        "matcher": "startup|clear",
+        "hooks": [
+          { "type": "command", "command": "taco", "args": ["hook", "sessionstart", "--local-db", "${CLAUDE_PLUGIN_ROOT}/hooks/nudge-compat/local.db"], "timeout": 5 }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          { "type": "command", "command": "taco", "args": ["hook"], "async": true }
+        ]
+      }
+    ],
     "SessionEnd": [
       {
         "matcher": "",

@@ -50,6 +50,14 @@ Claude Code hook (Stop/UserPromptSubmit)
   → taco hook nudge --local-db <플러그인>/hooks/nudge-compat/local.db
                 (sync, timeout 5s — transcript 끝부분만 읽음, ~15ms)
     → 맥락이 크면 {"systemMessage": "🌮 …"} 한 줄을 화면에 표시
+
+Claude Code hook (SessionStart: startup|clear)
+  → taco hook sessionstart --local-db <플러그인>/hooks/nudge-compat/local.db
+                (sync, timeout 5s — 로컬 메모 디렉터리만 읽음)
+    → 같은 프로젝트 직전 세션의 이어받기 메모가 있으면 그 경로를 Claude 맥락에 넣음
+
+Claude Code hook (PostCompact)
+  → taco hook   (async — 압축 요약을 이어받기 메모에 보관)
 ```
 
 - **맥락 안내**(taco CLI 0.12.11+). 옛 CLI 에선 아무것도 하지 않고 조용히 끝난다 —
@@ -63,6 +71,18 @@ Claude Code hook (Stop/UserPromptSubmit)
     "🌮 오래 쉬었다 이어가면 맥락 12만 토큰을 다시 읽어요 — 요약해 새 세션으로 시작하면 같은 한도로 더 써요"
   - 끄기: `taco config set nudge false` 또는 `TACO_NUDGE=0`.
 
+- **이어받기 메모**(taco CLI 0.13.0+, 설정 없음). 맥락이 큰 세션의 메모(최근 요청·바꾼 파일·
+  남은 할 일·압축 요약)를 taco 가 이 컴퓨터에만 남기고(서버 전송 없음, 7일 보관), 같은
+  프로젝트에서 새 세션이나 `/clear` 로 시작하면 그 메모의 경로를 Claude 에게 넣는다.
+  사람에게는 첫 프롬프트에 "🌮 직전 세션(32만 토큰)의 이어받기 메모를 넣어 뒀어요 — "이어서"라고만
+  하면 돼요" 한 줄이 뜬다. `/taco:handoff` 를 쓰면 Claude 가 직접 정리한 요약을 저장해 두고
+  `/clear` 하면 그 요약으로 바로 이어진다. 끄기: `TACO_HANDOFF=0`.
+  - SessionStart 는 **동기** hook 이다. async SessionStart 의 출력은 첫 요청보다 늦게 끝나면
+    다음 턴에야 Claude 에게 간다(Claude Code 2.1.311 실측). 동기여도 세션 시작 중 입력은 막지
+    않고 Claude 의 첫 응답만 hook 이 끝날 때까지 기다린다. 이 hook 은 로컬 메모 디렉터리만 읽어
+    보통 수십 ms 안에 끝나지만(실측), 디스크가 느리면 설정된 제한(5초)까지 기다릴 수 있다.
+    옛 CLI 에선 위 호환 경로로 출력 없이 끝난다.
+
 - **자동 전송은 기본 ON**(`auto_sync`). 로그인 전에는 로컬 버퍼에만 쌓이고,
   `taco login` 후부터 서버로 전송된다.
 - 수집 대상은 `allowed_orgs` / `allowed_dirs` 필터를 따른다.
@@ -74,8 +94,9 @@ Claude Code hook (Stop/UserPromptSubmit)
 |---|---|
 | `.claude-plugin/plugin.json` | 플러그인 매니페스트 |
 | `.claude-plugin/marketplace.json` | marketplace 레지스트리 매니페스트 |
-| `hooks/hooks.json` | hook 이벤트 → `taco hook` 등록 (async) + Stop/UserPromptSubmit → `taco hook nudge` (sync) |
+| `hooks/hooks.json` | hook 이벤트 → `taco hook` 등록 (async) + Stop/UserPromptSubmit → `taco hook nudge` (sync) + SessionStart → `taco hook sessionstart` (sync) |
 | `hooks/nudge-compat` | 옛 CLI 호환 표지 파일(위 "맥락 안내" 참고) — 지우지 말 것 |
+| `skills/handoff/SKILL.md` | `/taco:handoff` — 지금 세션 요약을 MCP `taco_handoff_save` 로 저장 |
 | `.mcp.json` | taco MCP 서버 등록 — `taco`(로컬 stdio) + `taco-remote`(원격 http) |
 
 ## 문서 · 대시보드
