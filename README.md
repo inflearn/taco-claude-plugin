@@ -49,7 +49,7 @@ Claude Code hook (Stop/SubagentStop/PreCompact/SessionEnd)
 Claude Code hook (Stop/UserPromptSubmit)
   → taco hook nudge --local-db <플러그인>/hooks/nudge-compat/local.db
                 (sync, timeout 5s — transcript 끝부분만 읽음, ~15ms)
-    → 맥락이 크면 {"systemMessage": "🌮 …"} 한 줄을 화면에 표시
+    → 맥락이 크면 {"systemMessage": "taco: …"} 한 줄을 화면에 표시
 
 Claude Code hook (SessionStart: startup|clear)
   → taco hook sessionstart --local-db <플러그인>/hooks/nudge-compat/local.db
@@ -71,15 +71,15 @@ Claude Code hook (PreCompact)
   exit 1 → 매 턴 hook 오류). async hook 의 `systemMessage` 는
   사람에게 안 보이고 Claude 에게만 가므로, 안내는 별도 **동기** hook 으로 낸다.
   - Stop: 본 세션 마지막 턴 맥락이 15만 토큰을 넘으면(같은 세션은 10만 단위마다 한 번)
-    "🌮 지금 맥락 32만 토큰 — `/compact`나 새 세션으로 이어가면 같은 한도로 더 쓸 수 있어요"
+    "taco: 지금 맥락 32만 토큰 — `/compact`나 새 세션으로 이어가면 같은 한도로 더 쓸 수 있어요"
   - UserPromptSubmit: 캐시 유지 시간(5분/1시간)보다 오래 쉬었고 맥락이 10만을 넘으면
-    "🌮 오래 쉬었다 이어가면 맥락 12만 토큰을 다시 읽어요 — 요약해 새 세션으로 시작하면 같은 한도로 더 써요"
+    "taco: 오래 쉬었다 이어가면 맥락 12만 토큰을 다시 읽어요 — 요약해 새 세션으로 시작하면 같은 한도로 더 써요"
   - 끄기: `taco config set nudge false` 또는 `TACO_NUDGE=0`.
 
 - **이어받기 메모**(taco CLI 0.13.0+, 설정 없음). 맥락이 큰 세션의 메모(최근 요청·바꾼 파일·
   남은 할 일·압축 요약)를 taco 가 이 컴퓨터에만 남기고(서버 전송 없음, 7일 보관), 같은
   프로젝트에서 새 세션이나 `/clear` 로 시작하면 그 메모의 경로를 Claude 에게 넣는다.
-  사람에게는 첫 프롬프트에 "🌮 직전 세션(32만 토큰)의 이어받기 메모를 넣어 뒀어요 — "이어서"라고만
+  사람에게는 첫 프롬프트에 "taco: 직전 세션(32만 토큰)의 이어받기 메모를 넣어 뒀어요 — "이어서"라고만
   하면 돼요" 한 줄이 뜬다. `/taco:handoff` 를 쓰면 Claude 가 직접 정리한 요약을 저장해 두고
   `/clear` 하면 그 요약으로 바로 이어진다. 끄기: `TACO_HANDOFF=0`.
   - SessionStart 는 **동기** hook 이다. async SessionStart 의 출력은 첫 요청보다 늦게 끝나면
